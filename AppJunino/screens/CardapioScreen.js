@@ -13,11 +13,11 @@ import CardItem from '../components/cardItem';
 const bandeiras = require('../assets/bandeiras.png');
 
 const itens = [
-  { id: '1', nome: 'Pipoca', preco: 5 },
-  { id: '2', nome: 'Canjica', preco: 7 },
-  { id: '3', nome: 'Maçã do amor', preco: 4 },
-  { id: '4', nome: 'Pamonha', preco: 6 },
-  { id: '5', nome: 'Quentão', preco: 8 },
+  { id: '1', nome: '🍿 Pipoca', preco: 5 },
+  { id: '2', nome: '🥣 Canjica', preco: 7 },
+  { id: '3', nome: '🍎 Maçã do amor', preco: 4 },
+  { id: '4', nome: '🌽 Pamonha', preco: 6 },
+  { id: '5', nome: '🍷 Quentão', preco: 8 },
 ];
 
 export default function CardapioScreen({ navigation }) {
@@ -86,43 +86,15 @@ const styles = StyleSheet.create({
     bottom: 20,
     alignSelf: 'center',
   },
-  
   title: {
     fontSize: 26,
     fontWeight: 'bold',
-    color: '#3D2C8D',
+    color: '#000',
     backgroundColor: '#FFD966',
-    paddingVertical: 15,
+    paddingVertical: 25,
     textAlign: 'center',
     elevation: 4,
     shadowColor: '#000',
-  },
-  card: {
-    backgroundColor: '#3D2C8D',
-    marginHorizontal: 15,
-    marginVertical: 8,
-    borderRadius: 12,
-    padding: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 4,
-  },
-  cardTop: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  nome: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  preco: {
-    color: '#fff',
-    marginTop: 8,
-    fontSize: 16,
   },
   menu: {
     flexDirection: 'row',

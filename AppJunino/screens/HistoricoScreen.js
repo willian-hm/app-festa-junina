@@ -24,19 +24,12 @@ export default function HistoricoScreen({ navigation, route }) {
   }, []);
 
   useEffect(() => {
-    if (route.params?.novaFoto) {
-      setFotos((fotosAntigas) => {
-        if (fotosAntigas.includes(route.params.novaFoto)) {
-          return fotosAntigas;
-        }
-        const novaLista = [...fotosAntigas, route.params.novaFoto];
-        salvarFotos(novaLista);
-        return novaLista;
-      });
+  if (route.params?.novaFoto) {
+    carregarFotos(); 
+    navigation.setParams({ novaFoto: undefined });
+  }
+}, [route.params?.novaFoto]);
 
-      navigation.setParams({ novaFoto: undefined });
-    }
-  }, [route.params?.novaFoto]);
 
   const salvarFotos = async (lista) => {
     try {
@@ -49,6 +42,7 @@ export default function HistoricoScreen({ navigation, route }) {
   const carregarFotos = async () => {
     try {
       const json = await AsyncStorage.getItem("fotos");
+      console.log(json);
       if (json) setFotos(JSON.parse(json));
     } catch (e) {
       console.error("Erro ao carregar fotos", e);

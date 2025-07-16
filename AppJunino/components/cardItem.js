@@ -13,7 +13,7 @@ export default function CardItem({ item }) {
           <Ionicons
             name={curtido ? 'heart' : 'heart-outline'}
             size={24}
-            color={curtido ? '#ff4d4d' : '#fff'}
+            color={curtido ? '#ff4d4d' : '#000'}
           />
         </TouchableOpacity>
       </View>
@@ -24,7 +24,7 @@ export default function CardItem({ item }) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#3D2C8D',
+    backgroundColor: '#FFF2CC',
     marginHorizontal: 15,
     marginVertical: 8,
     borderRadius: 12,
@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 4,
+    opacity: 0.85
   },
   cardTop: {
     flexDirection: 'row',
@@ -41,12 +42,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   nome: {
-    color: '#fff',
+    color: '#000',
     fontSize: 18,
     fontWeight: '600',
   },
   preco: {
-    color: '#fff',
+    color: '#000',
     marginTop: 8,
     fontSize: 16,
   },

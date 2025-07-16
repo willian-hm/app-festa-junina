@@ -3,6 +3,7 @@ import { View, Text, Alert, TouchableOpacity, StyleSheet } from 'react-native';
 import { Camera, CameraView } from 'expo-camera';   
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import * as FileSystem from 'expo-file-system';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function CameraScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -21,23 +22,29 @@ export default function CameraScreen({ navigation }) {
   };
 
   const tirarFoto = async () => {
-    if (!cameraRef.current) return;
-    try {
-      const foto = await cameraRef.current.takePictureAsync({
-        quality: 0.7,
-        skipProcessing: true,
-      });
-      const fileName = foto.uri.split('/').pop();
-      const newPath = `${FileSystem.documentDirectory}${fileName}`;
-      await FileSystem.copyAsync({ from: foto.uri, to: newPath });
+  if (!cameraRef.current) return;
+  try {
+    const foto = await cameraRef.current.takePictureAsync({
+      quality: 0.7,
+      skipProcessing: true,
+    });
 
-      
-      navigation.navigate('Historico', { novaFoto: newPath });
-    } catch (err) {
-      Alert.alert('Erro', 'Não foi possível tirar a foto.');
-      console.error(err);
-    }
-  };
+    const fileName = `foto_${Date.now()}.jpg`;
+    const newPath = `${FileSystem.documentDirectory}${fileName}`;
+    await FileSystem.copyAsync({ from: foto.uri, to: newPath });
+
+    const fotosSalvas = await AsyncStorage.getItem('fotos');
+    const fotosArray = fotosSalvas ? JSON.parse(fotosSalvas) : [];
+
+    const novaLista = [newPath, ...fotosArray];
+    await AsyncStorage.setItem('fotos', JSON.stringify(novaLista));
+
+    navigation.navigate('Historico', { novaFoto: newPath });
+  } catch (err) {
+    Alert.alert('Erro', 'Não foi possível tirar a foto.');
+    console.error(err);
+  }
+};
 
   if (hasPermission === null) {
     return <View style={styles.center}><Text>Solicitando permissão...</Text></View>;
