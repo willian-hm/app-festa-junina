@@ -14,7 +14,21 @@ export default function RegistroFoto({ uri, onDelete }) {
 }
 
 const styles = StyleSheet.create({
-  imgContainer: { position: 'relative', margin: 5 },
-  img: { width: 100, height: 100, borderRadius: 10 },
-  delete: { position: 'absolute', top: 5, right: 5, backgroundColor: '#D94600', borderRadius: 10, padding: 3 }
+  imgContainer: {
+    position: 'relative',
+    margin: 5,
+  },
+  img: {
+    width: 100,
+    height: 100,
+    borderRadius: 10,
+  },
+  delete: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    backgroundColor: '#D94600',
+    borderRadius: 10,
+    padding: 3,
+  },
 });

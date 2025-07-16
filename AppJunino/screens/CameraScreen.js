@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { Camera, CameraType } from 'expo-camera';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, Alert, TouchableOpacity, StyleSheet } from 'react-native';
+import { Camera, CameraView } from 'expo-camera';   // <- mantém ambos
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import * as FileSystem from 'expo-file-system';
 
 export default function CameraScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
-  const [photoUri, setPhotoUri] = useState(null);
+  const [facing, setFacing] = useState('back');       // 'back' / 'front'
   const cameraRef = useRef(null);
 
   useEffect(() => {
@@ -14,73 +16,71 @@ export default function CameraScreen({ navigation }) {
     })();
   }, []);
 
-  const takePicture = async () => {
-    if (cameraRef.current) {
-      try {
-        const photo = await cameraRef.current.takePictureAsync();
-        setPhotoUri(photo.uri);
-      } catch (error) {
-        console.log('Erro ao tirar foto:', error);
-      }
+  const toggleFacing = () => {
+    setFacing(prev => (prev === 'back' ? 'front' : 'back'));
+  };
+
+  const tirarFoto = async () => {
+    if (!cameraRef.current) return;
+    try {
+      const foto = await cameraRef.current.takePictureAsync({
+        quality: 0.7,
+        skipProcessing: true,
+      });
+      const fileName = foto.uri.split('/').pop();
+      const newPath = `${FileSystem.documentDirectory}${fileName}`;
+      await FileSystem.copyAsync({ from: foto.uri, to: newPath });
+
+      
+      navigation.navigate('Historico', { novaFoto: newPath });
+    } catch (err) {
+      Alert.alert('Erro', 'Não foi possível tirar a foto.');
+      console.error(err);
     }
   };
 
   if (hasPermission === null) {
-    return (
-      <View style={styles.center}>
-        <Text>Solicitando permissão da câmera...</Text>
-      </View>
-    );
+    return <View style={styles.center}><Text>Solicitando permissão...</Text></View>;
   }
-
-  if (hasPermission === false) {
-    return (
-      <View style={styles.center}>
-        <Text>Sem acesso à câmera.</Text>
-      </View>
-    );
+  if (!hasPermission) {
+    return <View style={styles.center}><Text>Sem acesso à câmera.</Text></View>;
   }
 
   return (
     <View style={styles.container}>
-      {!photoUri ? (
-        <>
-          <Camera
-            style={styles.camera}
-            ref={cameraRef}
-            type={CameraType.back}
-            ratio="16:9"
-          />
-          <TouchableOpacity style={styles.button} onPress={takePicture}>
-            <Text style={styles.text}>Tirar Foto</Text>
+      <CameraView
+        ref={cameraRef}
+        style={styles.camera}
+        facing={facing}
+        ratio="16:9"
+      >
+        <View style={styles.controls}>
+          <TouchableOpacity onPress={tirarFoto} style={styles.capture}>
+            <Ionicons name="camera" size={36} color="white" />
           </TouchableOpacity>
-        </>
-      ) : (
-        <>
-          <Image source={{ uri: photoUri }} style={styles.preview} />
-          <TouchableOpacity style={styles.button} onPress={() => setPhotoUri(null)}>
-            <Text style={styles.text}>Tirar Outra</Text>
+          <TouchableOpacity onPress={toggleFacing} style={styles.flip}>
+            <MaterialIcons name="flip-camera-android" size={28} color="white" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
-            <Text style={styles.text}>Voltar</Text>
-          </TouchableOpacity>
-        </>
-      )}
+        </View>
+      </CameraView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   center: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000' },
-  container: { flex: 1, backgroundColor: '#000' },
-  camera: { flex: 1 },
-  button: {
-    backgroundColor: '#D94600',
-    padding: 15,
-    alignItems: 'center',
-    margin: 15,
-    borderRadius: 10,
+  container: { flex: 1 },
+  camera: { flex: 1, justifyContent: 'flex-end' },
+  controls: {
+    flexDirection: 'row', justifyContent: 'space-around',
+    padding: 20, backgroundColor: 'rgba(0,0,0,0.3)',
   },
-  text: { color: '#fff', fontSize: 18 },
-  preview: { flex: 1, width: '100%', resizeMode: 'contain' },
+  capture: {
+    backgroundColor: '#D94600', borderRadius: 35,
+    padding: 15, justifyContent: 'center', alignItems: 'center',
+  },
+  flip: {
+    backgroundColor: '#555', borderRadius: 30,
+    padding: 10, justifyContent: 'center', alignItems: 'center',
+  },
 });
