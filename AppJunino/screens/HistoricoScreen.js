@@ -74,12 +74,10 @@ export default function HistoricoScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
 
-      {/* Imagens de fundo */}
       <Image source={bandeiras} style={[styles.fundoImagem, styles.topo]} resizeMode="contain" />
       <Image source={bandeiras} style={[styles.fundoImagem, styles.centro]} resizeMode="contain" />
       <Image source={bandeiras} style={[styles.fundoImagem, styles.base]} resizeMode="contain" />
 
-      {/* Header com botão voltar */}
       <View style={styles.header}>
         <TouchableOpacity onPress={voltarCardapio} style={styles.botaoVoltar}>
           <Ionicons name="arrow-back" size={24} color="#fff" />
@@ -87,7 +85,6 @@ export default function HistoricoScreen({ navigation, route }) {
         </TouchableOpacity>
       </View>
 
-      {/* Botão abrir câmera */}
       <View style={{ marginBottom: 10, paddingHorizontal: 10 }}>
         <Button title="Abrir Câmera" onPress={abrirCamera} color="#A85F0F" />
       </View>

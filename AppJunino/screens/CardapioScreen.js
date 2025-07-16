@@ -9,6 +9,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import CardItem from '../components/cardItem';
 const bandeiras = require('../assets/bandeiras.png');
 
 const itens = [
@@ -19,37 +20,14 @@ const itens = [
   { id: '5', nome: 'Quentão', preco: 8 },
 ];
 
-// Card individual com botão de curtir
-function CardItem({ item }) {
-  const [curtido, setCurtido] = React.useState(false);
-
-  return (
-    <View style={styles.card}>
-      <View style={styles.cardTop}>
-        <Text style={styles.nome}>{item.nome}</Text>
-        <TouchableOpacity onPress={() => setCurtido(!curtido)}>
-          <Ionicons
-            name={curtido ? 'heart' : 'heart-outline'}
-            size={24}
-            color={curtido ? '#ff4d4d' : '#fff'}
-          />
-        </TouchableOpacity>
-      </View>
-      <Text style={styles.preco}>R$ {item.preco.toFixed(2)}</Text>
-    </View>
-  );
-}
-
 export default function CardapioScreen({ navigation }) {
   return (
     <View style={styles.container}>
       
-      {/* Imagens de fundo posicionadas */}
       <Image source={bandeiras} style={[styles.fundoImagem, styles.topo]} resizeMode="contain" />
       <Image source={bandeiras} style={[styles.fundoImagem, styles.centro]} resizeMode="contain" />
       <Image source={bandeiras} style={[styles.fundoImagem, styles.base]} resizeMode="contain" />
       
-      {/* Conteúdo normal da tela */}
       <Text style={styles.title}>🎉 Cardápio Junino 🎉</Text>
 
       <FlatList
@@ -60,7 +38,7 @@ export default function CardapioScreen({ navigation }) {
         showsVerticalScrollIndicator={false}
       />
 
-      {/* Menu de navegação */}
+  
       <View style={styles.menu}>
         <TouchableOpacity
           style={styles.botao}
@@ -82,7 +60,7 @@ export default function CardapioScreen({ navigation }) {
   );
 }
 
-// pega largura e altura da tela pra posicionar as imagens melhor
+
 const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -101,14 +79,14 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   centro: {
-    top: height / 2 - (height * 0.15) / 2, // vertical centralizado
+    top: height / 2 - (height * 0.15) / 2, 
     alignSelf: 'center',
   },
   base: {
     bottom: 20,
     alignSelf: 'center',
   },
-  // ... seu styles originais ...
+  
   title: {
     fontSize: 26,
     fontWeight: 'bold',

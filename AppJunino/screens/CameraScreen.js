@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Alert, TouchableOpacity, StyleSheet } from 'react-native';
-import { Camera, CameraView } from 'expo-camera';   // <- mantém ambos
+import { Camera, CameraView } from 'expo-camera';   
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import * as FileSystem from 'expo-file-system';
 
 export default function CameraScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
-  const [facing, setFacing] = useState('back');       // 'back' / 'front'
+  const [facing, setFacing] = useState('back');     
   const cameraRef = useRef(null);
 
   useEffect(() => {
