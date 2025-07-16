@@ -13,11 +13,11 @@ import CardItem from '../components/cardItem';
 const bandeiras = require('../assets/bandeiras.png');
 
 const itens = [
-  { id: '1', nome: '🍿 Pipoca', preco: 5 },
-  { id: '2', nome: '🥣 Canjica', preco: 7 },
-  { id: '3', nome: '🍎 Maçã do amor', preco: 4 },
-  { id: '4', nome: '🌽 Pamonha', preco: 6 },
-  { id: '5', nome: '🍷 Quentão', preco: 8 },
+  { id: '1', nome: '🍿 Pipoca', preco: 5, ingredientes: ['Milho', 'Óleo', 'Sal'] },
+  { id: '2', nome: '🥣 Canjica', preco: 7, ingredientes: ['Milho branco', 'Leite', 'Açúcar', 'Canela'] },
+  { id: '3', nome: '🍎 Maçã do amor', preco: 4, ingredientes: ['Maçã', 'Açúcar', 'Corante'] },
+  { id: '4', nome: '🌽 Pamonha', preco: 6, ingredientes: ['Milho', 'Leite', 'Açúcar', 'Sal'] },
+  { id: '5', nome: '🍷 Quentão', preco: 8, ingredientes: ['Vinho', 'Gengibre', 'Cravo', 'Canela'] },
 ];
 
 export default function CardapioScreen({ navigation }) {

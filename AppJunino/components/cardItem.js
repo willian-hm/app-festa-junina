@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default function CardItem({ item }) {
   const [curtido, setCurtido] = useState(false);
+  const [mostrarIngredientes, setMostrarIngredientes] = useState(false);
 
   return (
     <View style={styles.card}>
@@ -17,7 +18,27 @@ export default function CardItem({ item }) {
           />
         </TouchableOpacity>
       </View>
+
       <Text style={styles.preco}>R$ {item.preco.toFixed(2)}</Text>
+
+      <TouchableOpacity
+        style={styles.botao}
+        onPress={() => setMostrarIngredientes(!mostrarIngredientes)}
+      >
+        <Text style={styles.textoBotao}>
+          {mostrarIngredientes ? 'Ocultar ingredientes' : 'Ver ingredientes'}
+        </Text>
+      </TouchableOpacity>
+
+      {mostrarIngredientes && (
+        <View style={styles.listaIngredientes}>
+          {item.ingredientes.map((ing, index) => (
+            <Text key={index} style={styles.ingrediente}>
+              • {ing}
+            </Text>
+          ))}
+        </View>
+      )}
     </View>
   );
 }
@@ -50,5 +71,26 @@ const styles = StyleSheet.create({
     color: '#000',
     marginTop: 8,
     fontSize: 16,
+  },
+  botao: {
+    marginTop: 10,
+    backgroundColor: '#D94600',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    alignSelf: 'flex-start',
+  },
+  textoBotao: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  listaIngredientes: {
+    marginTop: 10,
+    paddingLeft: 8,
+  },
+  ingrediente: {
+    fontSize: 14,
+    color: '#333',
+    marginBottom: 2,
   },
 });

@@ -42,7 +42,6 @@ export default function HistoricoScreen({ navigation, route }) {
   const carregarFotos = async () => {
     try {
       const json = await AsyncStorage.getItem("fotos");
-      console.log(json);
       if (json) setFotos(JSON.parse(json));
     } catch (e) {
       console.error("Erro ao carregar fotos", e);
